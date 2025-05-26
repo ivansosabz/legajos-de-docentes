@@ -1,0 +1,52 @@
+{% extends 'layout/base.html' %}
+{% block title %}Detalle del Docente{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <h2 class="mb-4">Detalle del Docente</h2>
+
+            {# Acciones principales #}
+            <div class="mb-4 d-flex flex-wrap gap-2">
+                <a href="{% url 'docente' %}" class="btn btn-outline-primary btn-sm">Ver Todos</a>
+                <a href="{% url 'docente_create' %}" class="btn btn-primary btn-sm">Añadir Docente</a>
+            </div>
+
+            {# Detalles del docente #}
+            <div class="card p-4 border-0 shadow-sm">
+                <div class="docente-item">
+                    <h5>Nombre</h5>
+                    <span>{{ docente.nombre }}</span>
+                </div>
+                <div class="docente-item">
+                    <h5>Apellido</h5>
+                    <span>{{ docente.apellido }}</span>
+                </div>
+                <div class="docente-item">
+                    <h5>Cédula</h5>
+                    <span>{{ docente.ci }}</span>
+                </div>
+                <div class="docente-item">
+                    <h5>Email</h5>
+                    <span>{{ docente.email }}</span>
+                </div>
+                <div class="docente-item">
+                    <h5>Teléfono</h5>
+                    <span>{{ docente.telefono }}</span>
+                </div>
+                <div class="docente-item">
+                    <h5>Fecha de Ingreso</h5>
+                    <span>{{ docente.fecha_ingreso }}</span>
+                </div>
+                <div class="docente-item">
+                    <h5>Nivel</h5>
+                    <span>{{ docente.nivel }}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

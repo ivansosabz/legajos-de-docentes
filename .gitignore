@@ -1,0 +1,54 @@
+# Entorno virtual
+env/
+venv/
+
+# Archivos de PyCharm
+.idea/
+
+# Archivos temporales de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de bases de datos (si usás SQLite local para pruebas)
+*.sqlite3
+
+# Archivos de configuración local
+*.env
+.env.*
+
+# Archivos de migraciones generados automáticamente
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Archivos subidos por usuarios
+legajodedocentes/media/documentos/*
+!legajodedocentes/media/documentos/.gitkeep
+
+# Archivos de logs y cachés
+*.log
+*.pot
+*.mo
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.tgz
+*.egg-info/
+dist/
+build/
+
+# Archivos de pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Archivos de pytest
+.cache/
+
+# Archivos de coverage
+htmlcov/
+.coverage
+.tox/
+
+# Archivos de VSCode (si algún colaborador usa VSCode)
+.vscode/

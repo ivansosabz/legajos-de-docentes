@@ -1,0 +1,57 @@
+{% extends 'layout/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-light">Sobre la página</h1>
+    <p class="text-light fs-5">
+      <strong>Gestión de Legajos de Docentes</strong> es un sistema desarrollado por estudiantes de la Facultad de Ciencias y Tecnologías de la
+      <strong>Universidad Nacional de Caaguazú (UNCA)</strong>, con el objetivo de facilitar la administración digital de documentos y legajos del personal docente.
+    </p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-3">
+      <div class="card border-0 shadow h-100 text-center bg-dark text-light">
+        <div class="card-body">
+          <i class="fas fa-folder-open fa-2x text-primary mb-3"></i>
+          <h5 class="card-title fw-bold">Organización</h5>
+          <p class="card-text">Permite almacenar, clasificar y consultar fácilmente los documentos asociados a cada docente.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="card border-0 shadow h-100 text-center bg-dark text-light">
+        <div class="card-body">
+          <i class="fas fa-shield-alt fa-2x text-success mb-3"></i>
+          <h5 class="card-title fw-bold">Seguridad</h5>
+          <p class="card-text">Los legajos están protegidos y accesibles solo para usuarios autorizados.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="card border-0 shadow h-100 text-center bg-dark text-light">
+        <div class="card-body">
+          <i class="fas fa-clock fa-2x text-warning mb-3"></i>
+          <h5 class="card-title fw-bold">Agilidad</h5>
+          <p class="card-text">Reduce los tiempos administrativos mediante un acceso rápido a la información.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="card border-0 shadow h-100 text-center bg-dark text-light">
+        <div class="card-body">
+          <i class="fas fa-laptop-code fa-2x text-danger mb-3"></i>
+          <h5 class="card-title fw-bold">Desarrollo Académico</h5>
+          <p class="card-text">Creado como parte de una práctica formativa por estudiantes de Ingeniería en Sistemas Informáticos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+

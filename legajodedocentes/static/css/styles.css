@@ -1,0 +1,278 @@
+/* Variables base - Tema oscuro GitHub */
+:root {
+    --color-primario: #58a6ff;
+    --color-secundario: #c9d1d9;
+    --color-texto: #f0f6fc;
+    --color-hover: #1f6feb;
+    --color-footer: #161b22;
+
+    --color-fondo: #0d1117;
+    --color-fondo-secundario: #161b22;
+    --color-borde: #30363d;
+    --color-placeholder: #8b949e;
+    --color-verde: #238636;
+    --color-verde-hover: #2ea043;
+    --color-fondo-claro: #21262d;
+    --color-input-dark: #343a40;
+    --color-input-border: #6c757d;
+    --color-placeholder-alt: #adb5bd;
+    --color-shadow: rgba(0, 0, 0, 0.3);
+    --color-shadow-light: rgba(0, 0, 0, 0.2);
+    --color-shadow-input-focus: rgba(88, 166, 255, 0.25);
+    --color-shadow-form-focus: rgba(0,123,255,.25);
+}
+
+/* Reset básico */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-secundario);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor principal */
+.wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--color-fondo-secundario) !important;
+    box-shadow: 0 2px 10px var(--color-shadow-light);
+}
+
+.navbar-brand,
+.navbar-nav .nav-link {
+    color: var(--color-texto) !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--color-hover) !important;
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--color-secundario) !important;
+}
+
+.navbar.scrolled {
+    background-color: var(--color-fondo-claro) !important;
+    transition: background-color 0.3s ease;
+}
+
+/* Contenido principal */
+main {
+    padding: 2rem;
+    flex: 1;
+}
+
+/* Tarjetas */
+.card {
+    border: 1px solid var(--color-borde);
+    border-radius: 1rem;
+    background-color: var(--color-fondo-secundario);
+    box-shadow: 0 4px 12px var(--color-shadow-light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: var(--color-texto);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px var(--color-shadow);
+}
+
+/* Botones */
+.btn-primary {
+    background-color: var(--color-verde);
+    border-color: var(--color-verde);
+    color: #fff;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-verde-hover);
+    border-color: var(--color-verde-hover);
+}
+
+/* Footer */
+footer {
+    background-color: var(--color-footer);
+    color: var(--color-texto);
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+    box-shadow: 0 -2px 8px var(--color-shadow-light);
+    margin-top: auto;
+}
+
+footer a {
+    color: var(--color-primario);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Tablas */
+.table {
+    color: var(--color-texto);
+}
+
+.table thead {
+    background-color: var(--color-fondo-secundario);
+    color: var(--color-texto);
+    border-bottom: 2px solid var(--color-borde);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: var(--color-fondo-secundario);
+}
+
+/* Formularios y campos */
+.form-control,
+.form-select,
+.form-control:focus,
+.form-select:focus,
+:is(input, select, textarea).form-control:focus {
+    background-color: var(--color-fondo-secundario) !important;
+    color: var(--color-texto) !important;
+    border-color: var(--color-borde) !important;
+    box-shadow: none !important;
+}
+
+.form-control::placeholder {
+    color: var(--color-placeholder);
+}
+
+::placeholder {
+    color: var(--color-placeholder);
+}
+
+/* Títulos */
+h1, h2, h3 {
+    color: var(--color-primario);
+    font-weight: 600;
+}
+
+/* Docente item */
+.docente-item {
+    background-color: var(--color-fondo-secundario);
+    border: 1px solid var(--color-borde);
+    color: var(--color-texto);
+    border-radius: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 1rem 1.25rem;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.docente-item:hover {
+    background-color: var(--color-fondo-claro);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px var(--color-shadow);
+}
+
+.docente-item h5 {
+    color: var(--color-primario);
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.docente-item small.text-muted {
+    color: var(--color-texto) !important;
+}
+
+.docente-item .btn-group .btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+.docente-item .btn + .btn {
+    margin-left: 0.4rem;
+}
+
+/* Grupos de inputs */
+.input-group .form-control {
+    background-color: var(--color-fondo-secundario) !important;
+    color: var(--color-texto) !important;
+    border: 1px solid var(--color-borde) !important;
+    border-radius: 0.5rem 0 0 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.input-group .form-control:focus {
+    border-color: var(--color-primario) !important;
+    box-shadow: 0 0 0 0.2rem var(--color-shadow-input-focus);
+    outline: none;
+}
+
+.input-group .btn-primary {
+    background-color: var(--color-primario);
+    color: #fff;
+    border: 1px solid var(--color-primario);
+    border-radius: 0 0.5rem 0.5rem 0;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.input-group .btn-primary:hover {
+    background-color: var(--color-hover);
+    border-color: var(--color-hover);
+}
+
+.input-group input::placeholder {
+    color: var(--color-placeholder);
+}
+
+/* Contenedor de formularios */
+.form-container {
+    background-color: var(--color-fondo-secundario);
+    color: var(--color-texto);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px var(--color-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+    background-color: var(--color-fondo-secundario);
+    color: var(--color-texto);
+    border: 1px solid var(--color-borde);
+}
+
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+    background-color: var(--color-fondo);
+    border-color: var(--color-primario);
+    outline: none;
+    box-shadow: 0 0 0 0.2rem var(--color-shadow-form-focus);
+}
+
+/* Ajuste para campos oscuros en formularios */
+.card-body input,
+.card-body select,
+.card-body textarea {
+    background-color: var(--color-input-dark);
+    color: var(--color-texto);
+    border: 1px solid var(--color-input-border);
+}
+
+.card-body input::placeholder,
+.card-body textarea::placeholder {
+    color: var(--color-placeholder-alt);
+}

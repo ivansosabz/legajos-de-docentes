@@ -1,0 +1,61 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}Docentes{% endblock %}
+
+{% block content %}
+  {% if messages %}
+    <div class="container mt-4">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="container mt-4">
+    <h2 class="mb-4">Lista de Docentes</h2>
+
+    <form method="get" action="{% url 'docente' %}" class="form-search mb-4">
+      {% include 'layout/partials/barra_de_busqueda.html' %}
+    </form>
+
+    <div class="mb-4 d-flex justify-content-start gap-2">
+      <a href="{% url 'docente' %}" class="btn btn-outline-primary btn-sm">Ver Todos</a>
+      <a href="{% url 'docente_create' %}" class="btn btn-primary btn-sm">Añadir Docente</a>
+    </div>
+
+    {% if docentes %}
+      <div class="list-group">
+        {% for docente in docentes %}
+          <div class="list-group-item docente-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'docente_view' id=docente.id %}" class="flex-grow-1 text-decoration-none text-reset me-3">
+              <h5 class="mb-1">{{ docente.nombre }} {{ docente.apellido }}</h5>
+              <small class="text-muted">CI: {{ docente.ci }}</small><br>
+              <small class="text-muted">Email: {{ docente.email }}</small>
+            </a>
+            <div class="d-flex gap-2">
+{#              <a href="{% url 'docente_view' id=docente.id %}" class="btn btn-sm btn-light border" title="Ver">#}
+{#                <i class="bi bi-eye"></i>#}
+{#              </a>#}
+              <a href="{% url 'docente_edit' id=docente.id %}" class="btn btn-sm btn-light border" title="Editar">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <form action="{% url 'docente_delete' id=docente.id %}" method="post" onsubmit="return confirm('¿Estás seguro que deseas eliminar este docente?');" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-light border text-danger" title="Borrar">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+        <div class="alert alert-light border text-center shadow-sm py-4">
+            <span class="text-muted">No hay docentes cargados.</span>
+        </div>
+    {% endif %}
+  </div>
+{% endblock %}
