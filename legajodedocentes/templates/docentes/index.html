@@ -1,61 +1,116 @@
 {% extends 'layout/base.html' %}
 {% load static %}
+
 {% block title %}Docentes{% endblock %}
 
 {% block content %}
+  <!-- Mensajes Flash -->
   {% if messages %}
-    <div class="container mt-4">
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
-      {% endfor %}
+  <div class="container mt-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
     </div>
+    {% endfor %}
+  </div>
   {% endif %}
 
   <div class="container mt-4">
+    <!-- Encabezado y Controles -->
     <h2 class="mb-4">Lista de Docentes</h2>
 
-    <form method="get" action="{% url 'docente' %}" class="form-search mb-4">
+    <!-- Barra de Búsqueda -->
+    <form method="get" action="{% url 'docente' %}" class="mb-4">
       {% include 'layout/partials/barra_de_busqueda.html' %}
     </form>
 
+    <!-- Botones de Acción -->
     <div class="mb-4 d-flex justify-content-start gap-2">
       <a href="{% url 'docente' %}" class="btn btn-outline-primary btn-sm">Ver Todos</a>
       <a href="{% url 'docente_create' %}" class="btn btn-primary btn-sm">Añadir Docente</a>
     </div>
 
+    <!-- Lista de Docentes -->
     {% if docentes %}
-      <div class="list-group">
-        {% for docente in docentes %}
-          <div class="list-group-item docente-item d-flex justify-content-between align-items-center">
-            <a href="{% url 'docente_view' id=docente.id %}" class="flex-grow-1 text-decoration-none text-reset me-3">
-              <h5 class="mb-1">{{ docente.nombre }} {{ docente.apellido }}</h5>
-              <small class="text-muted">CI: {{ docente.ci }}</small><br>
-              <small class="text-muted">Email: {{ docente.email }}</small>
-            </a>
-            <div class="d-flex gap-2">
-{#              <a href="{% url 'docente_view' id=docente.id %}" class="btn btn-sm btn-light border" title="Ver">#}
-{#                <i class="bi bi-eye"></i>#}
-{#              </a>#}
-              <a href="{% url 'docente_edit' id=docente.id %}" class="btn btn-sm btn-light border" title="Editar">
-                <i class="bi bi-pencil"></i>
-              </a>
-              <form action="{% url 'docente_delete' id=docente.id %}" method="post" onsubmit="return confirm('¿Estás seguro que deseas eliminar este docente?');" class="d-inline">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-light border text-danger" title="Borrar">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </form>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    {% else %}
-        <div class="alert alert-light border text-center shadow-sm py-4">
-            <span class="text-muted">No hay docentes cargados.</span>
+    <div class="list-group">
+      {% for docente in docentes %}
+      <div class="list-group-item docente-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'docente_view' id=docente.id %}" class="flex-grow-1 text-decoration-none text-reset me-3">
+          <h5 class="mb-1">{{ docente.nombre }} {{ docente.apellido }}</h5>
+          <small class="text-muted">CI: {{ docente.ci }}</small><br>
+          <small class="text-muted">Email: {{ docente.email }}</small>
+        </a>
+        <div class="d-flex gap-2">
+          <a href="{% url 'docente_edit' id=docente.id %}" class="btn btn-sm btn-light border" title="Editar">
+            <i class="bi bi-pencil"></i>
+          </a>
+          <form action="{% url 'docente_delete' id=docente.id %}" method="post"
+                onsubmit="return confirm('¿Estás seguro que deseas eliminar este docente?');"
+                class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-light border text-danger" title="Borrar">
+              <i class="bi bi-trash"></i>
+            </button>
+          </form>
         </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-light border text-center shadow-sm py-4">
+      <span class="text-muted">No hay docentes cargados.</span>
+    </div>
+    {% endif %}
+
+    <!-- Paginación Mejorada -->
+    {% if docentes.has_other_pages %}
+    <nav class="mt-4" aria-label="Navegación de páginas">
+      <ul class="pagination justify-content-center mb-0">
+        <!-- Primera página -->
+        <li class="page-item {% if not docentes.has_previous %}disabled{% endif %}">
+          <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+             aria-label="Primera página">
+            <span aria-hidden="true">&laquo;&laquo;</span>
+          </a>
+        </li>
+
+        <!-- Página anterior -->
+        <li class="page-item {% if not docentes.has_previous %}disabled{% endif %}">
+          <a class="page-link" href="?page={% if docentes.has_previous %}{{ docentes.previous_page_number }}{% else %}1{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+             aria-label="Página anterior">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+
+        <!-- Páginas cercanas -->
+        {% for num in docentes.paginator.page_range %}
+          {% if num > docentes.number|add:'-2' and num < docentes.number|add:'2' %}
+            <li class="page-item {% if docentes.number == num %}active{% endif %}">
+              <a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                {{ num }}
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
+
+        <!-- Página siguiente -->
+        <li class="page-item {% if not docentes.has_next %}disabled{% endif %}">
+          <a class="page-link" href="?page={% if docentes.has_next %}{{ docentes.next_page_number }}{% else %}{{ docentes.paginator.num_pages }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+             aria-label="Página siguiente">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+
+        <!-- Última página -->
+        <li class="page-item {% if not docentes.has_next %}disabled{% endif %}">
+          <a class="page-link" href="?page={{ docentes.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+             aria-label="Última página">
+            <span aria-hidden="true">&raquo;&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
     {% endif %}
   </div>
 {% endblock %}

@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.utils import timezone
+from django.core.paginator import Paginator
 
 from .forms import DocenteForm, DocumentoForm
 from .models import Docente, Documento, Notificacion
@@ -12,15 +13,24 @@ from .utils import generar_notificaciones_vencidas
 
 # ------------------ DOCENTES ------------------
 
+
 def index(request):
     query = request.GET.get('search', '')
-    docentes = Docente.objects.filter(
+    docentes_list = Docente.objects.filter(
         Q(nombre__icontains=query) |
         Q(apellido__icontains=query) |
         Q(ci__icontains=query) |
         Q(nivel__nombre__icontains=query)
-    )
-    return render(request, 'docentes/index.html', {'docentes': docentes})
+    ).order_by('apellido', 'nombre')  # opcionalmente ordenado
+
+    paginator = Paginator(docentes_list, 5)  # 5 docentes por página
+    page = request.GET.get('page')
+    docentes = paginator.get_page(page)
+
+    return render(request, 'docentes/index.html', {
+        'docentes': docentes,
+        'query': query,
+    })
 
 def view(request, id):
     docente = get_object_or_404(Docente, id=id)
@@ -66,14 +76,23 @@ def delete(request, id):
 
 def documento(request):
     query = request.GET.get('search', '')
-    documentos = Documento.objects.filter(
+    documentos_list = Documento.objects.filter(
         Q(nombre__icontains=query) |
         Q(docente__nombre__icontains=query) |
         Q(docente__apellido__icontains=query) |
         Q(docente__ci__icontains=query) |
         Q(tipo_documento__nombre__icontains=query)
-    )
-    return render(request, 'documentos/index.html', {'documentos': documentos})
+    ).order_by('-fecha_emision')
+
+    paginator = Paginator(documentos_list, 6)  #  documentos por página
+    page = request.GET.get('page')
+    documentos = paginator.get_page(page)
+
+    return render(request, 'documentos/index.html', {
+        'documentos': documentos,
+        'query': query,
+    })
+
 
 def create_document(request):
     if request.method == 'POST':
