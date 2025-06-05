@@ -10,6 +10,7 @@ from .forms import DocenteForm, DocumentoForm
 from .models import Docente, Documento, Notificacion
 from datetime import date
 from .utils import generar_notificaciones_vencidas
+from .filters import DocenteFilter
 
 # Constantes
 DOCENTES_POR_PAGINA = 5
@@ -18,15 +19,9 @@ DOCUMENTOS_POR_PAGINA = 6
 # ------------------ DOCENTES ------------------
 
 def index(request):
-    query = request.GET.get('search', '')
-    docentes_list = Docente.objects.filter(
-        Q(nombre__icontains=query) |
-        Q(apellido__icontains=query) |
-        Q(ci__icontains=query) |
-        Q(nivel__nombre__icontains=query)
-    ).order_by('nombre', 'apellido')
+    docente_filter = DocenteFilter(request.GET, queryset=Docente.objects.all().order_by('nombre', 'apellido'))
 
-    paginator = Paginator(docentes_list, DOCENTES_POR_PAGINA)
+    paginator = Paginator(docente_filter.qs, DOCENTES_POR_PAGINA)
     page = request.GET.get('page')
 
     try:
@@ -38,7 +33,7 @@ def index(request):
 
     return render(request, 'docentes/index.html', {
         'docentes': docentes,
-        'query': query,
+        'filter': docente_filter,
     })
 
 
