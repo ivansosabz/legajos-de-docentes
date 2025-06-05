@@ -10,7 +10,7 @@ from .forms import DocenteForm, DocumentoForm
 from .models import Docente, Documento, Notificacion
 from datetime import date
 from .utils import generar_notificaciones_vencidas
-from .filters import DocenteFilter
+from .filters import DocenteFilter, DocumentoFilter
 
 # Constantes
 DOCENTES_POR_PAGINA = 5
@@ -76,16 +76,20 @@ def delete(request, id):
 # ------------------ DOCUMENTOS ------------------
 
 def documento(request):
-    query = request.GET.get('search', '')
-    documentos_list = Documento.objects.filter(
-        Q(nombre__icontains=query) |
-        Q(docente__nombre__icontains=query) |
-        Q(docente__apellido__icontains=query) |
-        Q(docente__ci__icontains=query) |
-        Q(tipo_documento__nombre__icontains=query)
-    ).order_by('-fecha_emision')
+    documento_filter = DocumentoFilter(
+        request.GET,
+        queryset=Documento.objects.all().order_by('-fecha_emision')
+    )
+    # query = request.GET.get('search', '')
+    # documentos_list = Documento.objects.filter(
+    #     Q(nombre__icontains=query) |
+    #     Q(docente__nombre__icontains=query) |
+    #     Q(docente__apellido__icontains=query) |
+    #     Q(docente__ci__icontains=query) |
+    #     Q(tipo_documento__nombre__icontains=query)
+    # ).order_by('-fecha_emision')
 
-    paginator = Paginator(documentos_list, DOCUMENTOS_POR_PAGINA)
+    paginator = Paginator(documento_filter.qs, DOCUMENTOS_POR_PAGINA)
     page = request.GET.get('page')
 
     try:
@@ -97,7 +101,8 @@ def documento(request):
 
     return render(request, 'documentos/index.html', {
         'documentos': documentos,
-        'query': query,
+        # 'query': query,
+        'filter': documento_filter,
     })
 
 

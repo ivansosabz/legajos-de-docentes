@@ -1,0 +1,42 @@
+{% load crispy_forms_tags %}
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title mb-4">Filtrar Documentos</h5>
+        <form method="get" class="row g-3">
+
+            <!-- Fila 1: Nombre y Tipo de Documento -->
+            <div class="col-md-6">
+                {{ filter.form.nombre|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ filter.form.tipo_documento|as_crispy_field }}
+            </div>
+
+            <!-- Fila 2: Fechas -->
+            <div class="col-md-6">
+                {{ filter.form.fecha_emision|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ filter.form.fecha_vencimiento|as_crispy_field }}
+            </div>
+
+            <!-- Fila 3: Docente -->
+            <div class="col-md-12">
+                {{ filter.form.docente|as_crispy_field }}
+            </div>
+
+            <!-- Botones -->
+            <div class="col-12 d-flex justify-content-end">
+                <div class="d-flex gap-2">
+                    <a href="{% url 'documento' %}" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-counterclockwise"></i> Limpiar
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

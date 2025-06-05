@@ -18,15 +18,19 @@
     <!-- Encabezado -->
     <h2 class="mb-4">Lista de Documentos</h2>
 
-    <!-- Barra de Búsqueda -->
-    <form method="get" action="{% url 'documento' %}" class="mb-4">
-      {% include 'layout/partials/barra_de_busqueda.html' %}
-    </form>
-
+{#    <!-- Barra de Búsqueda -->#}
+{#    <form method="get" action="{% url 'documento' %}" class="mb-4">#}
+{#      {% include 'layout/partials/barra_de_busqueda.html' %}#}
+{#    </form>#}
+    <!-- Formulario de filtros-->
+    {% include 'layout/partials/filtro_documento.html' %}
     <!-- Botones de Acción -->
-    <div class="mb-4 d-flex justify-content-start gap-2">
-      <a href="{% url 'documento' %}" class="btn btn-outline-primary btn-sm">Ver Todos</a>
-      <a href="{% url 'create_document' %}" class="btn btn-primary btn-sm">Añadir Documento</a>
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <div>
+            <a href="{% url 'create_document' %}" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus-lg me-1"></i> Nuevo Docente
+            </a>
+        </div>
     </div>
 
     <!-- Lista de Documentos -->

@@ -1,0 +1,58 @@
+{% load crispy_forms_tags %}
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title mb-4">Filtrar Docentes</h5>
+        <form method="get" class="row g-3">
+
+            <!-- Fila 1: Nombre y Apellido -->
+            <div class="col-md-6">
+                {{ filter.form.nombre|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ filter.form.apellido|as_crispy_field }}
+            </div>
+
+            <!-- Fila 2: CI y Email -->
+            <div class="col-md-6">
+                {{ filter.form.ci|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ filter.form.email|as_crispy_field }}
+            </div>
+
+            <!-- Fila 3: Nivel y Teléfono -->
+            <div class="col-md-6">
+                {{ filter.form.nivel|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ filter.form.telefono|as_crispy_field }}
+            </div>
+
+            <!-- Fila 4: Rango de Fecha de Ingreso -->
+            <div class="col-md-12">
+                <label class="form-label">Fecha de Ingreso</label>
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        {{ filter.form.fecha_ingreso_min|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ filter.form.fecha_ingreso_max|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fila 5: Botones -->
+            <div class="col-12 d-flex justify-content-end">
+                <div class="d-flex gap-2">
+                    <a href="{% url 'docente' %}" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-counterclockwise"></i> Limpiar
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

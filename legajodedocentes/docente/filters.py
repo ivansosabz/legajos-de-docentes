@@ -1,6 +1,7 @@
 import django_filters
-from .models import Docente, NivelDocente
+from .models import Docente, NivelDocente, Documento, TipoDocumento
 from django.forms.widgets import DateInput
+
 
 
 class DocenteFilter(django_filters.FilterSet):
@@ -32,3 +33,29 @@ class DocenteFilter(django_filters.FilterSet):
     class Meta:
         model = Docente
         fields = []
+
+
+class DocumentoFilter(django_filters.FilterSet):
+    nombre = django_filters.CharFilter(lookup_expr='icontains', label='Nombre del documento')
+    fecha_emision = django_filters.DateFromToRangeFilter(
+        label='Fecha de emisión (rango)',
+        widget=django_filters.widgets.RangeWidget(attrs={'type': 'date', 'class': 'form-control'})
+    )
+    fecha_vencimiento = django_filters.DateFromToRangeFilter(
+        label='Fecha de vencimiento (rango)',
+        widget=django_filters.widgets.RangeWidget(attrs={'type': 'date', 'class': 'form-control'})
+    )
+    tipo_documento = django_filters.ModelChoiceFilter(
+        queryset=TipoDocumento.objects.all(),
+        label='Tipo de documento',
+        empty_label='Todos los tipos'
+    )
+    docente = django_filters.ModelChoiceFilter(
+        queryset=Docente.objects.all(),
+        label='Docente',
+        empty_label='Todos los docentes'
+    )
+
+    class Meta:
+        model = Documento
+        fields = ['nombre', 'fecha_emision', 'fecha_vencimiento', 'tipo_documento', 'docente']
