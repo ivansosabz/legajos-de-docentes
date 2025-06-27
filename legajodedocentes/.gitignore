@@ -3,7 +3,7 @@ env/
 venv/
 
 # Archivos de PyCharm
-.idea/
+../.idea/
 
 # Archivos temporales de Python
 __pycache__/
