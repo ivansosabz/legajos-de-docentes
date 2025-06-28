@@ -75,36 +75,74 @@ def delete(request, id):
 
 # ------------------ DOCUMENTOS ------------------
 
+# def documento(request):
+#     documento_filter = DocumentoFilter(
+#         request.GET,
+#         queryset=Documento.objects.all().order_by('-fecha_emision')
+#     )
+#     query = request.GET.get('search', '')
+#     # documentos_list = Documento.objects.filter(
+#     #     Q(nombre__icontains=query) |
+#     #     Q(docente__nombre__icontains=query) |
+#     #     Q(docente__apellido__icontains=query) |
+#     #     Q(docente__ci__icontains=query) |
+#     #     Q(tipo_documento__nombre__icontains=query)
+#     # ).order_by('-fecha_emision')
+#
+#     paginator = Paginator(documento_filter.qs, DOCUMENTOS_POR_PAGINA)
+#     page = request.GET.get('page')
+#
+#     try:
+#         documentos = paginator.page(page)
+#     except PageNotAnInteger:
+#         documentos = paginator.page(1)
+#     except EmptyPage:
+#         documentos = paginator.page(paginator.num_pages)
+#
+#     return render(request, 'documentos/index.html', {
+#         'documentos': documentos,
+#         # 'query': query,
+#         'filter': documento_filter,
+#     })
 def documento(request):
-    documento_filter = DocumentoFilter(
-        request.GET,
-        queryset=Documento.objects.all().order_by('-fecha_emision')
-    )
-    # query = request.GET.get('search', '')
-    # documentos_list = Documento.objects.filter(
-    #     Q(nombre__icontains=query) |
-    #     Q(docente__nombre__icontains=query) |
-    #     Q(docente__apellido__icontains=query) |
-    #     Q(docente__ci__icontains=query) |
-    #     Q(tipo_documento__nombre__icontains=query)
-    # ).order_by('-fecha_emision')
+    # Obtener parámetros
+    search_query = request.GET.get('search', '')
 
-    paginator = Paginator(documento_filter.qs, DOCUMENTOS_POR_PAGINA)
+    # Base queryset
+    documentos = Documento.objects.select_related(
+        'docente', 'tipo_documento'
+    ).order_by('-fecha_emision')
+
+    # Aplicar búsqueda global si existe
+    if search_query:
+        documentos = documentos.filter(
+            Q(nombre__icontains=search_query) |
+            Q(docente__nombre__icontains=search_query) |
+            Q(docente__apellido__icontains=search_query) |
+            Q(docente__ci__icontains=search_query) |
+            Q(tipo_documento__nombre__icontains=search_query)
+        )
+
+    # Aplicar filtros
+    documento_filter = DocumentoFilter(request.GET, queryset=documentos)
+    documentos_filtrados = documento_filter.qs
+
+    # Paginación
+    paginator = Paginator(documentos_filtrados, DOCUMENTOS_POR_PAGINA)
     page = request.GET.get('page')
 
     try:
-        documentos = paginator.page(page)
+        documentos_paginados = paginator.page(page)
     except PageNotAnInteger:
-        documentos = paginator.page(1)
+        documentos_paginados = paginator.page(1)
     except EmptyPage:
-        documentos = paginator.page(paginator.num_pages)
+        documentos_paginados = paginator.page(paginator.num_pages)
 
     return render(request, 'documentos/index.html', {
-        'documentos': documentos,
-        # 'query': query,
+        'documentos': documentos_paginados,
         'filter': documento_filter,
+        'search_query': search_query,
     })
-
 
 def create_document(request):
     form = DocumentoForm(request.POST or None, request.FILES or None)

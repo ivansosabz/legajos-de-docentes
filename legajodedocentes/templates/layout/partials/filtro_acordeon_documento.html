@@ -1,0 +1,25 @@
+{% load crispy_forms_tags %}
+
+<!-- Acordeón minimalista sin bordes visibles -->
+<div class="accordion border-0" id="filtrosAcordeon" style="--bs-accordion-border-width: 0;">
+    <div class="accordion-item bg-transparent border-0">
+        <h2 class="accordion-header border-0">
+            <button class="accordion-button collapsed bg-dark text-light px-3 py-2 shadow-none"
+                    type="button"
+                    data-bs-toggle="collapse" data-bs-target="#collapseFiltros"
+                    aria-expanded="false" aria-controls="collapseFiltros"
+                    style="font-size: 0.95rem; border: none;">
+                <i class="bi bi-funnel me-2"></i> Filtros Avanzados
+            </button>
+        </h2>
+        <div id="collapseFiltros" class="accordion-collapse collapse border-0"
+             data-bs-parent="#filtrosAcordeon"
+             style="--bs-accordion-border-width: 0;">
+            <div class="accordion-body px-0 py-3">
+                <div class="row g-3 text-light">
+                    {% include 'layout/partials/filtro_documento.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

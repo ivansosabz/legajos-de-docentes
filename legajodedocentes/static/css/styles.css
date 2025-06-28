@@ -276,3 +276,36 @@ h1, h2, h3 {
 .card-body textarea::placeholder {
     color: var(--color-placeholder-alt);
 }
+/* Estilo para la lista de docentes (tablas o contenedores similares) */
+.lista-docentes, .docente-container {
+    background-color: var(--color-fondo-secundario);
+    color: var(--color-texto);
+    border: 1px solid var(--color-borde);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    margin-bottom: 2rem;
+}
+
+/* Para tablas específicas de docentes */
+.lista-docentes table {
+    width: 100%;
+    background-color: var(--color-fondo-secundario);
+    border-collapse: collapse;
+}
+
+.lista-docentes th,
+.lista-docentes td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-borde);
+    color: var(--color-texto);
+}
+
+.lista-docentes tr:nth-child(even) {
+    background-color: #1b1f27;
+}
+
+.lista-docentes tr:hover {
+    background-color: #2a2f3a;
+    transition: background-color 0.2s ease-in-out;
+}
