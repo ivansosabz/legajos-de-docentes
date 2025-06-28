@@ -19,23 +19,40 @@ DOCUMENTOS_POR_PAGINA = 6
 # ------------------ DOCENTES ------------------
 
 def index(request):
-    docente_filter = DocenteFilter(request.GET, queryset=Docente.objects.all().order_by('nombre', 'apellido'))
+    search_query = request.GET.get('search', '')
 
-    paginator = Paginator(docente_filter.qs, DOCENTES_POR_PAGINA)
+    # Base queryset
+    docentes = Docente.objects.all().order_by('apellido', 'nombre')
+
+    # Aplicar búsqueda global si existe
+    if search_query:
+        docentes = docentes.filter(
+            Q(nombre__icontains=search_query) |
+            Q(apellido__icontains=search_query) |
+            Q(ci__icontains=search_query) |
+            Q(email__icontains=search_query)
+        )
+
+    # Aplicar filtros
+    docente_filter = DocenteFilter(request.GET, queryset=docentes)
+    docentes_filtrados = docente_filter.qs
+
+    # Paginación
+    paginator = Paginator(docentes_filtrados, 10)  # Ajusta el número por página
     page = request.GET.get('page')
 
     try:
-        docentes = paginator.page(page)
+        docentes_paginados = paginator.page(page)
     except PageNotAnInteger:
-        docentes = paginator.page(1)
+        docentes_paginados = paginator.page(1)
     except EmptyPage:
-        docentes = paginator.page(paginator.num_pages)
+        docentes_paginados = paginator.page(paginator.num_pages)
 
     return render(request, 'docentes/index.html', {
-        'docentes': docentes,
+        'docentes': docentes_paginados,
         'filter': docente_filter,
+        'search_query': search_query,
     })
-
 
 def view(request, id):
     docente = get_object_or_404(Docente, id=id)
@@ -74,36 +91,6 @@ def delete(request, id):
 
 
 # ------------------ DOCUMENTOS ------------------
-
-# def documento(request):
-#     documento_filter = DocumentoFilter(
-#         request.GET,
-#         queryset=Documento.objects.all().order_by('-fecha_emision')
-#     )
-#     query = request.GET.get('search', '')
-#     # documentos_list = Documento.objects.filter(
-#     #     Q(nombre__icontains=query) |
-#     #     Q(docente__nombre__icontains=query) |
-#     #     Q(docente__apellido__icontains=query) |
-#     #     Q(docente__ci__icontains=query) |
-#     #     Q(tipo_documento__nombre__icontains=query)
-#     # ).order_by('-fecha_emision')
-#
-#     paginator = Paginator(documento_filter.qs, DOCUMENTOS_POR_PAGINA)
-#     page = request.GET.get('page')
-#
-#     try:
-#         documentos = paginator.page(page)
-#     except PageNotAnInteger:
-#         documentos = paginator.page(1)
-#     except EmptyPage:
-#         documentos = paginator.page(paginator.num_pages)
-#
-#     return render(request, 'documentos/index.html', {
-#         'documentos': documentos,
-#         # 'query': query,
-#         'filter': documento_filter,
-#     })
 def documento(request):
     # Obtener parámetros
     search_query = request.GET.get('search', '')

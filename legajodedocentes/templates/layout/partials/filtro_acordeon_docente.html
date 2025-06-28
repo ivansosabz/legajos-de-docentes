@@ -1,0 +1,38 @@
+{% load crispy_forms_tags %}
+
+<!-- Acordeón minimalista oscuro unificado -->
+<div class="accordion border-0 mb-4" id="filtrosDocenteAcordeon" style="--bs-accordion-border-width: 0;">
+    <div class="accordion-item bg-transparent border-0">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-dark text-light px-3 py-2 shadow-none"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseFiltrosDocente"
+                    aria-expanded="false"
+                    aria-controls="collapseFiltrosDocente"
+                    style="font-size: 0.95rem; border: none;">
+                <i class="bi bi-funnel me-2"></i> Filtros Avanzados
+            </button>
+        </h2>
+        <div id="collapseFiltrosDocente" class="accordion-collapse collapse border-0"
+             data-bs-parent="#filtrosDocenteAcordeon"
+             style="--bs-accordion-border-width: 0;">
+            <div class="accordion-body px-0 py-3">
+                <form method="get">
+                    <div class="row g-3">
+                        {{ filter.form|crispy }}
+                    </div>
+
+                    <div class="col-12 d-flex justify-content-end gap-2 pt-3">
+                        <a href="{% url 'docente' %}" class="btn btn-outline-light btn-sm">
+                            <i class="bi bi-arrow-counterclockwise me-1"></i> Limpiar
+                        </a>
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="bi bi-funnel me-1"></i> Aplicar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

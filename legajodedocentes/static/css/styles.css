@@ -309,3 +309,42 @@ h1, h2, h3 {
     background-color: #2a2f3a;
     transition: background-color 0.2s ease-in-out;
 }
+
+/* Para mayor consistencia con los inputs */
+.accordion-button::after {
+    filter: invert(0.8);
+}
+
+/* Asegurar que no haya bordes residuales */
+.accordion-item, .accordion-button, .accordion-collapse {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Estilo para el estado activo */
+.accordion-button:not(.collapsed) {
+    background-color: transparent;
+    color: inherit;
+}
+.accordion-button {
+    background-color: var(--color-fondo-secundario);
+    color: var(--color-texto);
+    font-weight: 500;
+    border: none;
+    box-shadow: none !important;
+}
+
+.accordion-button.collapsed {
+    color: var(--color-texto);
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: var(--color-fondo-claro);
+    color: var(--color-primario);
+}
+
+.accordion-body {
+    background-color: transparent;
+    color: var(--color-texto);
+    padding: 1rem 0.5rem;
+}

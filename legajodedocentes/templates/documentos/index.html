@@ -1,4 +1,3 @@
-
 {% extends 'layout/base.html' %}
 {% load static %}
 
@@ -6,179 +5,181 @@
 
 {% block content %}
 <div class="container mt-4">
-    <!-- Mensajes Flash -->
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
-        {% endfor %}
-    {% endif %}
 
-    <!-- Encabezado y Controles -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Lista de Documentos</h2>
-        <a href="{% url 'create_document' %}" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i> Nuevo Documento
-        </a>
-    </div>
+  <!-- Mensajes Flash -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
 
-   <!-- Sistema de Búsqueda y Filtrado -->
-<div class="card mb-4">
+  <!-- Encabezado -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Lista de Documentos</h2>
+    <a href="{% url 'create_document' %}" class="btn btn-primary">
+      <i class="bi bi-plus-lg me-1"></i> Nuevo Documento
+    </a>
+  </div>
+
+  <!-- Búsqueda y Filtros -->
+  <div class="card mb-4">
     <div class="card-body">
-        <!-- Formulario principal -->
-        <form method="get">
-            <!-- Barra de Búsqueda Rápida -->
-            <div class="input-group mb-4">
-                <input type="text" name="search" class="form-control"
-                       placeholder="Buscar por documento, docente o CI..."
-                       value="{{ search_query }}">
-                <button class="btn btn-primary" type="submit">
-                    <i class="bi bi-search"></i> Buscar
-                </button>
-            </div>
-
-            <!-- Filtros Avanzados (sin otro form anidado) -->
-            {% include 'layout/partials/filtro_acordeon_documento.html' %}
-        </form>
-    </div>
-</div>
-
-
-    <!-- Lista de Documentos -->
-    {% if documentos %}
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        {% for documento in documentos %}
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <!-- Cabecera de la Card -->
-                <div class="card-header bg-light">
-                    <h5 class="card-title mb-0">{{ documento.nombre }}</h5>
-                </div>
-
-                <!-- Vista previa del documento -->
-                <div class="text-center p-3 border-bottom">
-                    {% if documento.archivo %}
-                        {% if ".pdf" in documento.archivo.name %}
-                            <a href="{{ documento.archivo.url }}" target="_blank">
-                                <i class="bi bi-file-earmark-pdf text-danger" style="font-size: 3rem;"></i>
-                            </a>
-                        {% else %}
-                            <a href="{{ documento.archivo.url }}" target="_blank">
-                                <img src="{{ documento.archivo.url }}" class="img-fluid rounded"
-                                     style="max-height: 150px;" alt="{{ documento.nombre }}">
-                            </a>
-                        {% endif %}
-                    {% else %}
-                        <i class="bi bi-file-earmark text-muted" style="font-size: 3rem;"></i>
-                        <p class="text-muted small mt-2">Sin archivo adjunto</p>
-                    {% endif %}
-                </div>
-
-                <!-- Detalles del documento -->
-                <div class="card-body">
-                    <div class="mb-3">
-                        <p class="mb-1"><strong>Tipo:</strong> {{ documento.tipo_documento.nombre }}</p>
-                        <p class="mb-1"><strong>Docente:</strong> {{ documento.docente.nombre_completo }}</p>
-                    </div>
-
-                    <div class="mb-3">
-                        <p class="mb-1"><strong>Emisión:</strong> {{ documento.fecha_emision|date:"d/m/Y" }}</p>
-                        <p class="mb-1">
-                            <strong>Vencimiento:</strong>
-                            {% if documento.fecha_vencimiento %}
-                                {{ documento.fecha_vencimiento|date:"d/m/Y" }}
-                            {% else %}
-                                <span class="text-muted">No especificado</span>
-                            {% endif %}
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Acciones -->
-                <div class="card-footer bg-white border-top">
-                    <div class="d-flex justify-content-between">
-                        {% if documento.archivo %}
-                        <a href="{{ documento.archivo.url }}" target="_blank"
-                           class="btn btn-sm btn-outline-primary" title="Ver">
-                            <i class="bi bi-eye"></i>
-                        </a>
-                        {% else %}
-                        <span class="btn btn-sm btn-outline-secondary disabled" title="Sin archivo">
-                            <i class="bi bi-eye-slash"></i>
-                        </span>
-                        {% endif %}
-
-                        <a href="{% url 'edit_document' id=documento.id %}"
-                           class="btn btn-sm btn-outline-secondary" title="Editar">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-
-                        <form action="{% url 'delete_document' id=documento.id %}" method="post"
-                              onsubmit="return confirm('¿Eliminar este documento permanentemente?');">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+      <form method="get">
+        <!-- Búsqueda rápida -->
+        <div class="input-group mb-4">
+          <input type="text" name="search" class="form-control"
+                 placeholder="Buscar por documento, docente o CI..."
+                 value="{{ search_query }}">
+          <button class="btn btn-primary" type="submit">
+            <i class="bi bi-search"></i> Buscar
+          </button>
         </div>
-        {% endfor %}
+
+        <!-- Filtros avanzados -->
+        {% include 'layout/partials/filtro_acordeon_documento.html' %}
+      </form>
     </div>
-    {% else %}
+  </div>
+
+  <!-- Lista de Documentos -->
+  {% if documentos %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {% for documento in documentos %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+
+            <!-- Cabecera -->
+            <div class="card-header bg-light">
+              <h5 class="card-title mb-0">{{ documento.nombre }}</h5>
+            </div>
+
+            <!-- Vista previa -->
+            <div class="text-center p-3 border-bottom">
+              {% if documento.archivo %}
+                {% if ".pdf" in documento.archivo.name %}
+                  <a href="{{ documento.archivo.url }}" target="_blank">
+                    <i class="bi bi-file-earmark-pdf text-danger" style="font-size: 3rem;"></i>
+                  </a>
+                {% else %}
+                  <a href="{{ documento.archivo.url }}" target="_blank">
+                    <img src="{{ documento.archivo.url }}" class="img-fluid rounded"
+                         style="max-height: 150px;" alt="{{ documento.nombre }}">
+                  </a>
+                {% endif %}
+              {% else %}
+                <i class="bi bi-file-earmark text-muted" style="font-size: 3rem;"></i>
+                <p class="text-muted small mt-2">Sin archivo adjunto</p>
+              {% endif %}
+            </div>
+
+            <!-- Detalles -->
+            <div class="card-body">
+              <div class="mb-3">
+                <p class="mb-1"><strong>Tipo:</strong> {{ documento.tipo_documento.nombre }}</p>
+                <p class="mb-1"><strong>Docente:</strong> {{ documento.docente.nombre_completo }}</p>
+              </div>
+              <div class="mb-3">
+                <p class="mb-1"><strong>Emisión:</strong> {{ documento.fecha_emision|date:"d/m/Y" }}</p>
+                <p class="mb-1">
+                  <strong>Vencimiento:</strong>
+                  {% if documento.fecha_vencimiento %}
+                    {{ documento.fecha_vencimiento|date:"d/m/Y" }}
+                  {% else %}
+                    <span class="text-muted">No especificado</span>
+                  {% endif %}
+                </p>
+              </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="card-footer bg-white border-top">
+              <div class="d-flex justify-content-between">
+                {% if documento.archivo %}
+                  <a href="{{ documento.archivo.url }}" target="_blank"
+                     class="btn btn-sm btn-outline-primary" title="Ver">
+                    <i class="bi bi-eye"></i>
+                  </a>
+                {% else %}
+                  <span class="btn btn-sm btn-outline-secondary disabled" title="Sin archivo">
+                    <i class="bi bi-eye-slash"></i>
+                  </span>
+                {% endif %}
+
+                <a href="{% url 'edit_document' id=documento.id %}"
+                   class="btn btn-sm btn-outline-secondary" title="Editar">
+                  <i class="bi bi-pencil"></i>
+                </a>
+
+                <form action="{% url 'delete_document' id=documento.id %}" method="post"
+                      onsubmit="return confirm('¿Eliminar este documento permanentemente?');">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
     <div class="alert alert-light border text-center shadow-sm py-4">
       <span class="text-muted">No se encontraron documentos con los criterios seleccionados.</span>
     </div>
-    {% endif %}
+  {% endif %}
 
-    <!-- Paginación -->
-    {% if documentos.has_other_pages %}
-    <nav class="mt-4">
-        <ul class="pagination justify-content-center">
-            {% if documentos.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}"
-                       aria-label="Primera">
-                        <span aria-hidden="true">&laquo;&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ documentos.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}"
-                       aria-label="Anterior">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-            {% endif %}
+  <!-- Paginación -->
+  {% if documentos.has_other_pages %}
+    <nav class="mt-4" aria-label="Navegación de documentos">
+      <ul class="pagination justify-content-center mb-0">
 
-            {% for num in documentos.paginator.page_range %}
-                {% if num > documentos.number|add:'-3' and num < documentos.number|add:'3' %}
-                    <li class="page-item {% if documentos.number == num %}active{% endif %}">
-                        <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}">
-                            {{ num }}
-                        </a>
-                    </li>
-                {% endif %}
-            {% endfor %}
+        <!-- Primera página -->
+        {% if documentos.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}" aria-label="Primera">
+              <span aria-hidden="true">&laquo;&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ documentos.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" aria-label="Anterior">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+        {% endif %}
 
-            {% if documentos.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ documentos.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}"
-                       aria-label="Siguiente">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ documentos.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}"
-                       aria-label="Última">
-                        <span aria-hidden="true">&raquo;&raquo;</span>
-                    </a>
-                </li>
-            {% endif %}
-        </ul>
+        <!-- Páginas cercanas -->
+        {% for num in documentos.paginator.page_range %}
+          {% if num > documentos.number|add:'-3' and num < documentos.number|add:'3' %}
+            <li class="page-item {% if documentos.number == num %}active{% endif %}">
+              <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}">
+                {{ num }}
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
+
+        <!-- Siguiente y última página -->
+        {% if documentos.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ documentos.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" aria-label="Siguiente">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ documentos.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}" aria-label="Última">
+              <span aria-hidden="true">&raquo;&raquo;</span>
+            </a>
+          </li>
+        {% endif %}
+
+      </ul>
     </nav>
-    {% endif %}
+  {% endif %}
+
 </div>
 {% endblock %}
