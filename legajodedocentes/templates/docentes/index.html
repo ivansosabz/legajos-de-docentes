@@ -4,19 +4,19 @@
 {% block title %}Docentes{% endblock %}
 
 {% block content %}
-  <!-- Mensajes Flash -->
-  {% if messages %}
-    <div class="container mt-4">
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
-
   <div class="container mt-4">
+
+  <!-- Mensajes Flash -->
+      {% if messages %}
+        <div class="container mt-4">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
     <!-- Encabezado y Controles -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2>Lista de Docentes</h2>
