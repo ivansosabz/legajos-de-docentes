@@ -18,6 +18,41 @@ Utilizaremos el modelo **Git Flow Simplificado**:
    - `fix/correccion-bug`
 4. **Pull Requests (PRs)**: Cuando un colaborador termine una tarea, enviará un *Pull Request* para revisión antes de fusionarlo en `main`.
 
+## 🚀 Instrucciones para Ejecutar el Proyecto
+
+```bash
+1. Clonar el repositorio
+
+git clone https://github.com/TU-USUARIO/legajos-de-docentes.git
+cd legajos-de-docentes
+
+2. Crear entorno virtual
+
+python -m venv env
+
+3. Activar entorno virtual
+
+    En Windows:
+
+env\Scripts\activate
+
+4. Instalar dependencias
+
+pip install -r requirements.txt
+
+5. Crear la base de datos y aplicar migraciones
+
+python manage.py makemigrations
+python manage.py migrate
+
+6. Crear superusuario (usuario administrador)
+
+python manage.py createsuperuser
+
+7. Ejecutar el servidor
+
+python manage.py runserver
+```
 ## 🚀 ¿Cómo Trabajar en el Proyecto?
 1. **Haz un fork** del repositorio principal.
 2. **Clona tu fork** en tu computadora:
