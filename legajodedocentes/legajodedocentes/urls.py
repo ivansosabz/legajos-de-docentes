@@ -23,6 +23,7 @@ from legajodedocentes import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('usuarios/', include('usuarios.urls')),
     path('', views.index, name='index'),
     path('docente/', include('docente.urls')),
 
