@@ -12,12 +12,14 @@ from datetime import date
 from .utils import generar_notificaciones_vencidas
 from .filters import DocenteFilter, DocumentoFilter
 
+from django.contrib.auth.decorators import login_required
+
 # Constantes
 DOCENTES_POR_PAGINA = 5
 DOCUMENTOS_POR_PAGINA = 6
 
 # ------------------ DOCENTES ------------------
-
+@login_required
 def index(request):
     search_query = request.GET.get('search', '')
 
@@ -91,6 +93,7 @@ def delete(request, id):
 
 
 # ------------------ DOCUMENTOS ------------------
+@login_required
 def documento(request):
     # Obtener parámetros
     search_query = request.GET.get('search', '')
@@ -169,7 +172,7 @@ def delete_document(request, id):
     messages.success(request, 'Documento eliminado correctamente.')
     return redirect('documento')
 
-
+@login_required
 def notificacion(request):
     generar_notificaciones_vencidas()
     notificaciones = Notificacion.objects.filter(estado='Pendiente').order_by('-fecha_envio')
