@@ -12,11 +12,12 @@ from datetime import date
 from .utils import generar_notificaciones_vencidas
 from .filters import DocenteFilter, DocumentoFilter
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 # Constantes
 DOCENTES_POR_PAGINA = 5
 DOCUMENTOS_POR_PAGINA = 6
+
 
 # ------------------ DOCENTES ------------------
 @login_required
@@ -56,11 +57,15 @@ def index(request):
         'search_query': search_query,
     })
 
+
+@login_required
 def view(request, id):
     docente = get_object_or_404(Docente, id=id)
     return render(request, 'docentes/details.html', {'docente': docente})
 
 
+@login_required
+@permission_required("docente.add_documento", raise_exception=True)
 def create(request):
     form = DocenteForm(request.POST or None)
     if request.method == 'POST':
@@ -72,6 +77,8 @@ def create(request):
     return render(request, 'docentes/create.html', {'form': form})
 
 
+@login_required
+@permission_required("docente.change_documento", raise_exception=True)
 def edit(request, id):
     docente = get_object_or_404(Docente, id=id)
     form = DocenteForm(request.POST or None, instance=docente)
@@ -84,6 +91,8 @@ def edit(request, id):
     return render(request, 'docentes/edit.html', {'form': form, 'id': id})
 
 
+@login_required
+@permission_required("docente.delete_documento", raise_exception=True)
 @require_POST
 def delete(request, id):
     docente = get_object_or_404(Docente, id=id)
@@ -134,6 +143,10 @@ def documento(request):
         'search_query': search_query,
     })
 
+
+@login_required
+@permission_required("docente.add_documento", raise_exception=True)
+
 def create_document(request):
     form = DocumentoForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
@@ -145,6 +158,8 @@ def create_document(request):
     return render(request, 'documentos/create.html', {'form': form})
 
 
+@login_required
+@permission_required("docente.change_documento", raise_exception=True)
 def edit_document(request, id):
     documento = get_object_or_404(Documento, id=id)
     form = DocumentoForm(request.POST or None, request.FILES or None, instance=documento)
@@ -165,6 +180,8 @@ def edit_document(request, id):
     return render(request, 'documentos/edit.html', {'form': form, 'id': id})
 
 
+@login_required
+@permission_required("docente.delete_documento", raise_exception=True)
 @require_POST
 def delete_document(request, id):
     documento = get_object_or_404(Documento, id=id)

@@ -20,9 +20,11 @@
     <!-- Encabezado y Controles -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2>Lista de Docentes</h2>
+      {% if perms.docente.delete_documento %}
       <a href="{% url 'docente_create' %}" class="btn btn-primary">
         <i class="bi bi-plus-lg me-1"></i> Nuevo Docente
       </a>
+      {% endif %}
     </div>
 
     <!-- Sistema de Búsqueda y Filtrado -->
@@ -56,9 +58,13 @@
               <small class="text-muted">Email: {{ docente.email }}</small>
             </a>
             <div class="d-flex gap-2">
-              <a href="{% url 'docente_edit' id=docente.id %}" class="btn btn-sm btn-light border" title="Editar">
-                <i class="bi bi-pencil"></i>
-              </a>
+              {% if  perms.docente.change_documento %}
+                <a href="{% url 'docente_edit' id=docente.id %}" class="btn btn-sm btn-light border" title="Editar">
+                  <i class="bi bi-pencil"></i>
+                </a>
+              {% endif %}
+              
+              {% if perms.docente.delete_documento %}
               <form action="{% url 'docente_delete' id=docente.id %}" method="post"
                     onsubmit="return confirm('¿Estás seguro que deseas eliminar este docente?');"
                     class="d-inline">
@@ -67,6 +73,7 @@
                   <i class="bi bi-trash"></i>
                 </button>
               </form>
+              {% endif %}
             </div>
           </div>
         {% endfor %}

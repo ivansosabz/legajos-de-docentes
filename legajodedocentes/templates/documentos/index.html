@@ -19,9 +19,11 @@
     <!-- Encabezado y Controles -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Lista de Documentos</h2>
+        {% if perms.docente.delete_documento %}
         <a href="{% url 'create_document' %}" class="btn btn-primary">
             <i class="bi bi-plus-lg me-1"></i> Nuevo Documento
         </a>
+        {% endif %}
     </div>
 
    <!-- Sistema de Búsqueda y Filtrado -->
@@ -88,7 +90,7 @@
               </p>
               <p class="mb-2">
                 <strong class="text-light">Docente:</strong>
-                <span class="text-light">{{ documento.docente.nombre_completo }}</span>
+                <span class="text-light">{{ documento.docente.nombre }} {{ documento.docente.apellido }}</span>
               </p>
               <p class="mb-2">
                 <strong class="text-light">Emisión:</strong>
@@ -117,18 +119,25 @@
                 </span>
               {% endif %}
 
-              <a href="{% url 'edit_document' id=documento.id %}"
-                 class="btn btn-sm btn-light border" title="Editar">
-                <i class="bi bi-pencil"></i>
-              </a>
 
-              <form action="{% url 'delete_document' id=documento.id %}" method="post"
+
+              {% if  perms.docente.change_documento %}
+                <a href="{% url 'edit_document' id=documento.id %}"
+                  class="btn btn-sm btn-light border" title="Editar">
+                  <i class="bi bi-pencil"></i>
+                </a>
+              {% endif %}
+              
+              {% if perms.docente.delete_documento %}
+                <form action="{% url 'delete_document' id=documento.id %}" method="post"
                     onsubmit="return confirm('¿Eliminar este documento permanentemente?');">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-sm btn-light border text-danger" title="Eliminar">
                   <i class="bi bi-trash"></i>
                 </button>
               </form>
+              {% endif %}  
+              
             </div>
 
           </div>

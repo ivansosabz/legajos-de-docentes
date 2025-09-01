@@ -30,9 +30,11 @@
                             </div>
 
                             <div class="mt-auto text-end">
+                                {% if perms.docente.delete_documento %}
                                 <a href="{% url 'edit_document' id=noti.documento.id %}" class="btn btn-sm btn-outline-light border-secondary">
                                     <i class="bi bi-pencil me-1"></i> Editar Documento
                                 </a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
