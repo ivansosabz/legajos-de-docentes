@@ -29,6 +29,11 @@
             Notificaciones
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'reporte_documentos_form' %}active{% endif %}" href="{% url 'reporte_documentos_form' %}">
+            Reportes
+          </a>
+        </li>
 
         <li class="nav-item ms-lg-2">
           <form method="post" action="{% url 'logout' %}" class="d-inline mb-0">

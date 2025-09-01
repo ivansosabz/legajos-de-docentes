@@ -1,0 +1,42 @@
+<!-- templates/docente/reporte_form.html -->
+{% extends "layout/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Exportar reporte de documentos</h3>
+  <form method="get" action="{% url 'exportar_documentos' %}" class="row g-3">
+    <div class="col-md-4">
+      <label for="docente" class="form-label">Docente</label>
+      <select id="docente" name="docente" class="form-select">
+        <option value="all">-- Todos --</option>
+        {% for d in docentes %}
+          <option value="{{ d.id }}">{{ d.apellido }} {{ d.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label for="desde" class="form-label">Fecha desde</label>
+      <input type="date" id="desde" name="desde" class="form-control">
+    </div>
+
+    <div class="col-md-3">
+      <label for="hasta" class="form-label">Fecha hasta</label>
+      <input type="date" id="hasta" name="hasta" class="form-control">
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">Formato</label>
+      <select name="formato" class="form-select">
+        <option value="xlsx">Excel (.xlsx)</option>
+        <option value="csv">CSV</option>
+      </select>
+    </div>
+
+    <div class="col-12 mt-2">
+      <button type="submit" class="btn btn-primary">Exportar</button>
+      <a href="{% url 'docente' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

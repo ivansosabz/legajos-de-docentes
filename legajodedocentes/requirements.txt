@@ -5,7 +5,9 @@ django-crispy-forms==2.4
 django-filter==25.1
 django-seed==0.3.1
 django-widget-tweaks==1.5.0
+et_xmlfile==2.0.0
 Faker==37.6.0
+openpyxl==3.1.5
 sqlparse==0.5.3
 toposort==1.10
 tzdata==2025.2

@@ -17,6 +17,11 @@ urlpatterns = [
     path("delete_document/<int:id>/",views.delete_document, name="delete_document"),
 
     # ruta de notificaciones
-    path("notificacion/", views.notificacion, name="notificacion")
+    path("notificacion/", views.notificacion, name="notificacion"),
+
+    #ruta de reportes
+    path('reportes/documentos/', views.reporte_documentos_form, name='reporte_documentos_form'),
+    path('reportes/documentos/export/', views.exportar_documentos, name='exportar_documentos'),
+
 
 ]
